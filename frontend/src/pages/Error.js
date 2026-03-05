@@ -1,3 +1,9 @@
+import PageContent from "../components/PageContent";
+
 export default function Error() {
-  return <h1>Ops an error Occured</h1>;
+  return (
+    <PageContent title="Ops! An error occurred!">
+      <p>Something went wrong pls try again later</p>
+    </PageContent>
+  );
 }

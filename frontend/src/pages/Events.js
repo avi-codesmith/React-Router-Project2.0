@@ -20,6 +20,9 @@ export async function loader() {
 
   if (!response.ok) {
     // return { isError: true, message: "Ops! an error occured" }; We can return error code like that
+    throw new Response(JSON.stringify({ message: "Can't fetch events." }), {
+      status: 500,
+    });
   } else {
     // const resData = await response.json(); loader can automatically extract Data form Response Object
     return response;
