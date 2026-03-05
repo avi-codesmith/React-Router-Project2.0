@@ -26,14 +26,17 @@ import EventsLayout from "./pages/EventsLayout";
 
 import HomePage from "./pages/HomePage";
 import EventsPage from "./pages/Events";
+import { loader as eventLoader } from "./pages/Events";
 import EventDetailPage from "./pages/EventDetailPage";
 import NewEventPage from "./pages/NewEventPage";
 import EditEventPage from "./pages/EditEventPage";
+import Error from "./pages/Error";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <RootLayout />,
+    errorElement: <Error />, // We can add like that it means whenever the error occurred in any components show error
     children: [
       { index: true, element: <HomePage /> },
       {
@@ -43,16 +46,7 @@ const router = createBrowserRouter([
           {
             index: true,
             element: <EventsPage />,
-            loader: async () => {
-              const response = await fetch("http://localhost:8080/events");
-
-              if (!response.ok) {
-                //...
-              } else {
-                const resData = await response.json();
-                return resData.events;
-              }
-            },
+            loader: eventLoader,
           },
           { path: "new", element: <NewEventPage /> },
           {
