@@ -38,7 +38,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <RootLayout />,
-    // errorElement: <Error />,  // We can add like that it means whenever the error occurred in any components show error
+    errorElement: <Error />, // We can add like that it means whenever the error occurred in any components show error
     children: [
       { index: true, element: <HomePage /> },
       {

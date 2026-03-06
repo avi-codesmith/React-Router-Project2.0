@@ -1,3 +1,4 @@
+import { redirect } from "react-router-dom";
 import EventForm from "../components/EventForm";
 
 function NewEventPage() {
@@ -29,5 +30,6 @@ export async function action({ request, params }) {
       status: 500,
     });
   }
-  return null;
+
+  return redirect("/events");
 }
