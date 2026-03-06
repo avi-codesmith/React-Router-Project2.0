@@ -11,6 +11,7 @@ function EventForm({ method, event }) {
 
   return (
     <Form method="post" className={classes.form}>
+      {/*We can add action to specify the action in this case it doesn't needed by i have to mention and i did!!!! */}
       <p>
         <label htmlFor="title">Title</label>
         <input
