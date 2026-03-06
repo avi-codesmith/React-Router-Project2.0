@@ -48,3 +48,12 @@ ul {
   margin: 0;
   padding: 0;
 }
+
+.active {
+  color: #fab833 !important;
+  text-decoration: underline !important;
+}
+
+.btn-active {
+  background-color: #f9c762 !important;
+}

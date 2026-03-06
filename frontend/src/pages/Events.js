@@ -1,4 +1,4 @@
-import { useLoaderData } from "react-router-dom";
+import { json, useLoaderData } from "react-router-dom";
 import EventsList from "../components/EventsList";
 
 function EventsPage() {
@@ -20,9 +20,10 @@ export async function loader() {
 
   if (!response.ok) {
     // return { isError: true, message: "Ops! an error occured" }; We can return error code like that
-    throw new Response(JSON.stringify({ message: "Can't fetch events." }), {
-      status: 500,
-    });
+    // throw new Response(JSON.stringify({ message: "Can't fetch events." }), {
+    //   status: 500,
+    // }); for v7 and v7+
+    throw json({ message: "Can't fetch events" }, { status: 500 }); // for v6
   } else {
     // const resData = await response.json(); loader can automatically extract Data form Response Object
     return response;

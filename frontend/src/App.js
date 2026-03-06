@@ -27,16 +27,18 @@ import EventsLayout from "./pages/EventsLayout";
 import HomePage from "./pages/HomePage";
 import EventsPage from "./pages/Events";
 import { loader as eventLoader } from "./pages/Events";
-import EventDetailPage from "./pages/EventDetailPage";
-import NewEventPage from "./pages/NewEventPage";
+import EventDetailPage, {
+  loader as eventDetailLoader,
+} from "./pages/EventDetailPage";
+import NewEventPage, { action as newEventAction } from "./pages/NewEventPage";
 import EditEventPage from "./pages/EditEventPage";
 import Error from "./pages/Error";
 
 const router = createBrowserRouter([
   {
-    path: "reactrouter-web.netlify.app/",
+    path: "/",
     element: <RootLayout />,
-    errorElement: <Error />, // We can add like that it means whenever the error occurred in any components show error
+    // errorElement: <Error />,  // We can add like that it means whenever the error occurred in any components show error
     children: [
       { index: true, element: <HomePage /> },
       {
@@ -48,14 +50,22 @@ const router = createBrowserRouter([
             element: <EventsPage />,
             loader: eventLoader,
           },
-          { path: "new", element: <NewEventPage /> },
           {
             path: ":eventId",
+            id: "eventDetail",
+            loader: eventDetailLoader,
             children: [
-              { index: true, element: <EventDetailPage /> },
-              { path: "edit", element: <EditEventPage /> },
+              {
+                index: true,
+                element: <EventDetailPage />,
+              },
+              {
+                path: "edit",
+                element: <EditEventPage />,
+              },
             ],
           },
+          { path: "new", element: <NewEventPage />, action: newEventAction },
         ],
       },
     ],
