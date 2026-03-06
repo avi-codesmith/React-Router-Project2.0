@@ -25,6 +25,10 @@ export async function action({ request, params }) {
     body: JSON.stringify(eventData),
   });
 
+  if (response.status === 422) {
+    return response;
+  } // very common and very useful and important!!!!
+
   if (!response.ok) {
     throw new Response(JSON.stringify({ message: "Can not add your Event!" }), {
       status: 500,

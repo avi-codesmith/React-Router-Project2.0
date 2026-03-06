@@ -1,10 +1,17 @@
-import { useNavigate } from "react-router-dom";
-import { Form } from "react-router-dom";
-
+import {
+  Form,
+  useNavigate,
+  useNavigation,
+  useActionData,
+} from "react-router-dom";
 import classes from "./EventForm.module.css";
 
 function EventForm({ method, event }) {
   const navigate = useNavigate();
+  const navigation = useNavigation();
+  const data = useActionData();
+  console.log(data);
+  const isSubmitting = navigation.state === "submitting";
   function cancelHandler() {
     navigate("..");
   }
@@ -12,13 +19,20 @@ function EventForm({ method, event }) {
   return (
     <Form method="post" className={classes.form}>
       {/*We can add action to specify the action in this case it doesn't needed by i have to mention and i did!!!! */}
+      {data && data.errors && (
+        <ul>
+          {Object.values(data.errors).map((err) => (
+            <li key={err}>{err}</li>
+          ))}
+        </ul>
+      )}
       <p>
         <label htmlFor="title">Title</label>
         <input
           id="title"
           type="text"
           name="title"
-          required
+          // required
           defaultValue={event && event.title}
         />
       </p>
@@ -28,7 +42,7 @@ function EventForm({ method, event }) {
           id="image"
           type="url"
           name="image"
-          required
+          // required
           defaultValue={event && event.image}
         />
       </p>
@@ -38,7 +52,7 @@ function EventForm({ method, event }) {
           id="date"
           type="date"
           name="date"
-          required
+          // required
           defaultValue={event && event.date}
         />
       </p>
@@ -48,7 +62,7 @@ function EventForm({ method, event }) {
           id="description"
           name="description"
           rows="5"
-          required
+          // required
           defaultValue={event && event.description}
         />
       </p>
@@ -56,7 +70,9 @@ function EventForm({ method, event }) {
         <button type="button" onClick={cancelHandler}>
           Cancel
         </button>
-        <button>Save</button>
+        <button disabled={isSubmitting}>
+          {isSubmitting ? "submitting..." : "Save"}
+        </button>
       </div>
     </Form>
   );
