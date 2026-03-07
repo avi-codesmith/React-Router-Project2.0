@@ -1,31 +1,34 @@
 import { json, useLoaderData } from "react-router-dom";
+import { Await } from "react-router-dom";
 import EventsList from "../components/EventsList";
+import { Suspense } from "react";
 
 function EventsPage() {
-  const data = useLoaderData();
-  const events = data.events;
-
-  // if (data.isError) {
-  //   return <p>{data.message}</p>;
-  // } We can handle error like this
-  return <EventsList events={events} />;
+  const { events } = useLoaderData();
+  return (
+    <Suspense fallback={<p>loading...</p>}>
+      <Await resolve={events}>
+        {(loadedEvents) => <EventsList events={loadedEvents} />}
+      </Await>
+    </Suspense>
+  );
 }
 
 export default EventsPage;
 
-export async function loader() {
-  // useState() We cant use any hook of react in loader functions!!!!!!!!!
-  // It is a pure JS function!!!!!!!!1
+async function loadEvents() {
   const response = await fetch("http://localhost:8080/events");
 
   if (!response.ok) {
-    // return { isError: true, message: "Ops! an error occured" }; We can return error code like that
-    // throw new Response(JSON.stringify({ message: "Can't fetch events." }), {
-    //   status: 500,
-    // }); for v7 and v7+
     throw json({ message: "Can't fetch events" }, { status: 500 }); // for v6
   } else {
-    // const resData = await response.json(); loader can automatically extract Data form Response Object
-    return response;
+    const resData = await response.json();
+    return resData.events;
   }
+}
+
+export function loader() {
+  return {
+    events: loadEvents(),
+  };
 }
